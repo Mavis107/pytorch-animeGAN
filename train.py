@@ -18,22 +18,24 @@ from utils.image_processing import denormalize_input
 from dataset import AnimeDataSet
 from tqdm import tqdm
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
 gaussian_mean = torch.tensor(0.0)
 gaussian_std = torch.tensor(0.1)
 
 
 def parse_args():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Self-Attention GAN trainer')  
     parser.add_argument('--dataset', type=str, default='Hayao')
-    parser.add_argument('--data-dir', type=str, default='/content/dataset')
-    parser.add_argument('--epochs', type=int, default=100)
+    parser.add_argument('--data-dir', type=str, default='/home/rslab/dataset/')
+    parser.add_argument('--epochs', type=int, default=30)
     parser.add_argument('--init-epochs', type=int, default=5)
     parser.add_argument('--batch-size', type=int, default=6)
-    parser.add_argument('--checkpoint-dir', type=str, default='/content/checkpoints')
-    parser.add_argument('--save-image-dir', type=str, default='/content/images')
+    parser.add_argument('--checkpoint-dir', type=str, default='/home/rslab/checkpoints/attention_r_add_30')
+    parser.add_argument('--save-image-dir', type=str, default='/home/rslab/images')
     parser.add_argument('--gan-loss', type=str, default='lsgan', help='lsgan / hinge / bce')
-    parser.add_argument('--resume', type=str, default='False')
-    parser.add_argument('--use_sn', action='store_true')
+    parser.add_argument('--resume', type=str, default='True')
+    parser.add_argument('--use_sn', default='True')
     parser.add_argument('--save-interval', type=int, default=1)
     parser.add_argument('--debug-samples', type=int, default=0)
     parser.add_argument('--lr-g', type=float, default=2e-4)
@@ -45,7 +47,7 @@ def parse_args():
     parser.add_argument('--wgra', type=float, default=3.0, help='Gram loss weight')
     parser.add_argument('--wcol', type=float, default=30.0, help='Color loss weight')
     parser.add_argument('--d-layers', type=int, default=3, help='Discriminator conv layers')
-    parser.add_argument('--d-noise', action='store_true')
+    parser.add_argument('--d-noise', default='True')
 
     return parser.parse_args()
 
