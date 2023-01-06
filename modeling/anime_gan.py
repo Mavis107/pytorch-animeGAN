@@ -13,8 +13,6 @@ from modeling.conv_blocks import ConvBlock
 from utils.common import initialize_weights
 
 
-
-
 def init_linear(linear):
     init.xavier_uniform_(linear.weight)
     linear.bias.data.zero_()
